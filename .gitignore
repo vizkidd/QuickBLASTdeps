@@ -1,0 +1,17 @@
+*.o
+*.cds
+*.log
+*.tmp
+*.hits
+*.json
+*.so
+..Rcheck/
+.Rproj.user
+.Rhistory
+BUILD/
+inst/
+R/RcppExports.R
+src/RcppExports.cpp
+old/
+*.old
+*.dll
