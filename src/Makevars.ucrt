@@ -47,10 +47,12 @@ CPLUS_INCLUDE_PATH := "/x86_64-w64-mingw32.static.posix/include:/usr/include"
 #-L../BUILD/ncbi-cxx-toolkit-public/BUILD/bin/
 #-L../BUILD/arrow/cpp/BUILD/release/ -L../BUILD/arrow/cpp/BUILD_MSYS2/release/
 #-L../libs/$(R_ARCH)/
+#-larrow
+#-I../BUILD/arrow/cpp/BUILD/src/
 
 PKG_CFLAGS = $(C_VISIBILITY)
-PKG_CPPFLAGS = -I../BUILD/arrow/cpp/src/ -I../BUILD/arrow/cpp/BUILD/src/
-PKG_LIBS = -v -L$(R_HOME)/bin/$(R_ARCH)/ -L../inst/libs/$(R_ARCH) -L/usr/bin/ -L$(R_HOME)/bin/$(R_ARCH)/ -lct_ftds100 -lefetch -llmdb -lncbi_algo -lncbi_align_format -lncbi_core -lncbi_dbapi_driver -lncbi_eutils -lncbi_general -lncbi_misc -lncbi_pub -lncbi_seq -lncbi_seqext -lncbi_trackmgr -lncbi_web -lncbi_xdbapi_ftds -lncbi_xloader_blastdb -lncbi_xloader_blastdb_rmt -lncbi_xloader_genbank -lncbi_xobjsimple -lncbi_xreader -lncbi_xreader_cache -lncbi_xreader_id1 -lncbi_xreader_id2 -lpsg_client -lsqlitewrapp -lutrtprof -lxflatfile -lxxconnect2 -lncbi_blastinput -lQuickBLASTcpp -lR -lmsys-2.0 -lmsys-gcc_s-seh-1 -lmsys-stdc++-6 -lmsys-gomp-1 -larrow -l`cd ../BUILD/arrow/cpp/BUILD_MSYS2/release/ && ls -1 *.dll | sed 's/.dll//g'` `$(R_HOME)/bin/Rscript -e "Rcpp:::CxxFlags()"` `$(R_HOME)/bin/Rscript -e "Rcpp:::LdFlags()"` $(SHLIB_OPENMP_CXXFLAGS) -Wl,--demangle -Wl,-fstack-protector-strong -Wl,--no-undefined -Wl,-v
+PKG_CPPFLAGS = -I../BUILD/arrow/cpp/src/ 
+PKG_LIBS = -v -L$(R_HOME)/bin/$(R_ARCH)/ -L../inst/libs/$(R_ARCH) -L/usr/bin/ -L$(R_HOME)/bin/$(R_ARCH)/ -lct_ftds100 -lefetch -llmdb -lncbi_algo -lncbi_align_format -lncbi_core -lncbi_dbapi_driver -lncbi_eutils -lncbi_general -lncbi_misc -lncbi_pub -lncbi_seq -lncbi_seqext -lncbi_trackmgr -lncbi_web -lncbi_xdbapi_ftds -lncbi_xloader_blastdb -lncbi_xloader_blastdb_rmt -lncbi_xloader_genbank -lncbi_xobjsimple -lncbi_xreader -lncbi_xreader_cache -lncbi_xreader_id1 -lncbi_xreader_id2 -lpsg_client -lsqlitewrapp -lutrtprof -lxflatfile -lxxconnect2 -lncbi_blastinput -lQuickBLASTcpp -lR -lmsys-2.0 -lmsys-gcc_s-seh-1 -lmsys-stdc++-6 -lmsys-gomp-1 -l`cd ../BUILD/arrow/cpp/BUILD_MSYS2/release/ && ls -1 *.dll | sed 's/.dll//g'` `$(R_HOME)/bin/Rscript -e "Rcpp:::CxxFlags()"` `$(R_HOME)/bin/Rscript -e "Rcpp:::LdFlags()"` $(SHLIB_OPENMP_CXXFLAGS) -Wl,--demangle -Wl,-fstack-protector-strong -Wl,--no-undefined -Wl,-v
 PKG_CXXFLAGS = $(CXX_VISIBILITY) -DQBLIBRARY_IMPORTS -gdwarf-2 -mfpmath=sse -msse2 -mstackrealign -Wall -Wno-format-y2k -O2 -fPIC -Wextra -shared -Ilibsrc `$(R_HOME)/bin/Rscript -e "Rcpp:::CxxFlags()"` $(SHLIB_OPENMP_CXXFLAGS) -DMINGW32=1 -DR_DLL=1 -pthread -fstack-protector-strong -mthreads -mtune=generic -maccumulate-outgoing-args 
 
 #-I/usr/include -I/x86_64-w64-mingw32.static.posix/include -I/clang64/include -I/mingw64/include 
@@ -70,8 +72,8 @@ PKG_CXXFLAGS = $(CXX_VISIBILITY) -DQBLIBRARY_IMPORTS -gdwarf-2 -mfpmath=sse -mss
 # ../BUILD/arrow/cpp/BUILD_CLANG/release/libarrow_clang.dll.a
 #../BUILD/arrow/cpp/BUILD_MINGW/release/libarrow_mingw.dll.a ncbi_setup ../BUILD/arrow/cpp/BUILD_MSYS2/release/libarrow_msys2.dll.a ../BUILD/arrow/cpp/BUILD_MINGW/release/libarrow_msys_full.a ../BUILD/arrow/cpp/BUILD/release/libarrow.dll.a ncbi_setup ../BUILD/arrow/cpp/BUILD_MINGW/release/libarrow_mingw.dll.a ../BUILD/ncbi-cxx-toolkit-public/BUILD/bin/datatool.exe 
 #QuickBLAST
-#document
-all: builddeps ../BUILD/arrow/cpp/BUILD_MSYS2/release/libarrow_msys2.dll.a ../BUILD/arrow/cpp/BUILD/release/libarrow.dll.a ../BUILD/ncbi-cxx-toolkit-public/BUILD/lib/libQuickBLASTcpp.dll.a install_libs $(SHLIB) 
+#document #../BUILD/arrow/cpp/BUILD/release/libarrow.dll.a
+all: builddeps ../BUILD/arrow/cpp/BUILD_MSYS2/release/libarrow_msys2.dll.a ../BUILD/ncbi-cxx-toolkit-public/BUILD/lib/libQuickBLASTcpp.dll.a install_libs $(SHLIB) 
 
 install_deps:
 	(pacman -Syuu  -q --needed --noconfirm; \
@@ -84,14 +86,14 @@ install_libs:
 	cp -uf libct_ftds100.dll libefetch.dll liblmdb.dll libncbi_algo.dll libncbi_align_format.dll libncbi_core.dll libncbi_dbapi_driver.dll libncbi_eutils.dll libncbi_general.dll libncbi_misc.dll libncbi_pub.dll libncbi_seq.dll libncbi_seqext.dll libncbi_trackmgr.dll libncbi_web.dll libncbi_xdbapi_ftds.dll libncbi_xloader_blastdb.dll libncbi_xloader_blastdb_rmt.dll libncbi_xloader_genbank.dll libncbi_xobjsimple.dll libncbi_xreader.dll libncbi_xreader_cache.dll libncbi_xreader_id1.dll libncbi_xreader_id2.dll libpsg_client.dll libsqlitewrapp.dll libutrtprof.dll libxflatfile.dll libxxconnect2.dll libncbi_blastinput.dll libQuickBLASTcpp.dll ../../../../inst/libs/$(R_ARCH)/ ; \
 	cd ../../../arrow/cpp/BUILD_MSYS2/release/ ; \
 	cp -uf *.dll ../../../../../inst/libs/$(R_ARCH)/ ; \
-	cd ../../BUILD/release/ ; \
-	cp -uf *.dll ../../../../../inst/libs/$(R_ARCH)/ ; \
-	#cp -uf /usr/bin/msys-gomp-1.dll ../../../../../inst/libs/$(R_ARCH)/ ; \
-	#cp -uf /usr/bin/msys-stdc++-6.dll ../../../../../inst/libs/$(R_ARCH)/ ; \
-	#cp -uf /usr/bin/msys-gcc_s-seh-1.dll ../../../../../inst/libs/$(R_ARCH)/ ; \
-	#cp -uf /usr/bin/msys-2.0.dll ../../../../../inst/libs/$(R_ARCH)/ ; \
-	#cd ../../../../../ ; \
-	#$(R_HOME)/bin/Rscript -e "devtools::install(build = T,force = T, quick=F, args = c('--no-staged-install'))" ; \
+	#cd ../../BUILD/release/ ; \
+	#cp -uf *.dll ../../../../../inst/libs/$(R_ARCH)/ ; \
+	##cp -uf /usr/bin/msys-gomp-1.dll ../../../../../inst/libs/$(R_ARCH)/ ; \
+	##cp -uf /usr/bin/msys-stdc++-6.dll ../../../../../inst/libs/$(R_ARCH)/ ; \
+	##cp -uf /usr/bin/msys-gcc_s-seh-1.dll ../../../../../inst/libs/$(R_ARCH)/ ; \
+	##cp -uf /usr/bin/msys-2.0.dll ../../../../../inst/libs/$(R_ARCH)/ ; \
+	##cd ../../../../../ ; \
+	##$(R_HOME)/bin/Rscript -e "devtools::install(build = T,force = T, quick=F, args = c('--no-staged-install'))" ; \
 	)
 
 document:
@@ -187,7 +189,7 @@ builddeps:
 ../BUILD/arrow/cpp/BUILD/release/libarrow.dll.a:
 	(mkdir -p ../BUILD/arrow/cpp/BUILD ; \
 	cd ../BUILD/arrow/cpp/BUILD ; \
-	CC="$(RTOOLS_DIR)/x86_64-w64-mingw32.static.posix/bin/gcc" CXX="$(RTOOLS_DIR)/x86_64-w64-mingw32.static.posix/bin/g++" $(RTOOLS_DIR)/x86_64-w64-mingw32.static.posix/bin/cmake .. -G "MSYS Makefiles" -DARROW_CSV=ON -DARROW_FILESYSTEM=ON -DARROW_HDFS=ON -DARROW_PARQUET=OFF -DARROW_DEPENDENCY_USE_SHARED=OFF -DARROW_WITH_BZ2=ON  -DARROW_WITH_LZ4=ON -DARROW_DEPENDENCY_SOURCE=BUNDLED -DARROW_BUILD_STATIC=OFF -DARROW_BUILD_SHARED=ON -DPARQUET_MINIMAL_DEPENDENCY=OFF -DARROW_WITH_BROTLI=ON -DARROW_WITH_RE2=ON -DARROW_WITH_ZLIB=OFF -DARROW_WITH_ZSTD=ON -DCMAKE_BUILD_TYPE=Release -DARROW_IPC=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DARROW_COMPUTE=ON -DARROW_ENABLE_THREADING=ON -DARROW_VERBOSE_THIRDPARTY_BUILD=ON -DARROW_POSITION_INDEPENDENT_CODE=ON -DARROW_JEMALLOC=OFF -DARROW_MIMALLOC=ON -DARROW_JSON=ON -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DCMAKE_C_FLAGS=" -std=gnu11 -O2 -fstack-protector-strong -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -Wall -fdiagnostics-color=always -pthread -mthreads -fvisibility=default -mtune=generic -maccumulate-outgoing-args " -DCMAKE_CXX_FLAGS=" -std=gnu++17 -O2 -fstack-protector-strong -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -Wall -fdiagnostics-color=always $(SHLIB_OPENMP_CXXFLAGS) -pthread -mthreads -fpermissive -fvisibility=default -mtune=generic -maccumulate-outgoing-args " -DCMAKE_SHARED_LINKER_FLAGS_INIT=" -Wl,--demangle -Wl,--pic-executable -Wl,-shared -Wl,-ffat-lto-objects -Wl,-flto=auto -Wl,--dll -Wl,-fstack-protector-strong -Wl,--enable-auto-import -Wl,--support-old-code -Wl,--as-needed " ; \
+	CC="$(RTOOLS_DIR)/x86_64-w64-mingw32.static.posix/bin/gcc" CXX="$(RTOOLS_DIR)/x86_64-w64-mingw32.static.posix/bin/g++" $(RTOOLS_DIR)/x86_64-w64-mingw32.static.posix/bin/cmake .. -G "MSYS Makefiles" -DARROW_CSV=ON -DARROW_FILESYSTEM=ON -DARROW_HDFS=ON -DARROW_PARQUET=OFF -DARROW_DEPENDENCY_USE_SHARED=OFF -DARROW_WITH_BZ2=ON  -DARROW_WITH_LZ4=ON -DARROW_DEPENDENCY_SOURCE=BUNDLED -DARROW_BUILD_STATIC=OFF -DARROW_BUILD_SHARED=ON -DPARQUET_MINIMAL_DEPENDENCY=OFF -DARROW_WITH_BROTLI=ON -DARROW_WITH_RE2=ON -DARROW_WITH_ZLIB=OFF -DARROW_WITH_ZSTD=ON -DCMAKE_BUILD_TYPE=Release -DARROW_IPC=ON -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DARROW_COMPUTE=ON -DARROW_ENABLE_THREADING=ON -DARROW_VERBOSE_THIRDPARTY_BUILD=ON -DARROW_POSITION_INDEPENDENT_CODE=ON -DARROW_JEMALLOC=OFF -DARROW_MIMALLOC=ON -DARROW_JSON=ON -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DCMAKE_C_FLAGS=" -std=gnu11 -O2 -fstack-protector-strong -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -Wall -fdiagnostics-color=always -pthread -mthreads -fvisibility=default -mtune=generic -maccumulate-outgoing-args -include 'stdint.h' -include 'cstdint' " -DCMAKE_CXX_FLAGS=" -std=gnu++17 -O2 -fstack-protector-strong -Wformat -Werror=format-security -D_FORTIFY_SOURCE=2 -Wall -fdiagnostics-color=always $(SHLIB_OPENMP_CXXFLAGS) -pthread -mthreads -fpermissive -fvisibility=default -mtune=generic -maccumulate-outgoing-args " -DCMAKE_SHARED_LINKER_FLAGS_INIT=" -Wl,--demangle -Wl,--pic-executable -Wl,-shared -Wl,-ffat-lto-objects -Wl,-flto=auto -Wl,--dll -Wl,-fstack-protector-strong -Wl,--enable-auto-import -Wl,--support-old-code -Wl,--as-needed " ; \
 	$(MAKE) -j $(NPROC) ; \
 	cd release ; \
 	#cp -uf libarrow.a libarrow_mingw.a ; \
