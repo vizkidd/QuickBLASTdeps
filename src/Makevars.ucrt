@@ -18,8 +18,8 @@ CLANG_VER_NOPUNCT=`/mingw64/bin/clang -dumpversion | tr -d '[:space:]' | tr -d '
 WSL:=`which wsl.exe`
 #RTOOLS_DIR := $(shell cygpath -m `$(R_HOME)/bin/Rscript -e "cat(Sys.getenv('RTOOLS43_HOME'))"`)
 PKG_DIR_ROOT=`$(R_HOME)/bin/Rscript -e "fs::path_package('QuickBLASTdeps')"`
-RTOOLS_DIR_ROOT=`$(R_HOME)/bin/Rscript -e "cat(Sys.getenv(paste('RTOOLS',version[['major']],unlist(strsplit(x=version[['minor']],fixed = T, split = '.'))[1], '_HOME', sep='')))"`
-RTOOLS_DIR=`/usr/bin/cygpath -m $(RTOOLS_DIR_ROOT)`
+RTOOLS_DIR=`$(R_HOME)/bin/Rscript -e "cat(gsub('\\\\', '/', Sys.getenv(paste('RTOOLS',version[['major']],unlist(strsplit(x=version[['minor']],fixed = T, split = '.'))[1], '_HOME', sep=''))))"`
+# RTOOLS_DIR=`/usr/bin/cygpath -m $(RTOOLS_DIR_ROOT)`
 #MSYS_CMD := "$(RTOOLS_DIR)/msys2_shell.cmd"
 #PWD=`pwd`
 #ABS_PWD=`realpath $(PWD)`
